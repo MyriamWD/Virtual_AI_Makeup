@@ -196,25 +196,19 @@ class Organ():
             self.patch_bgr_temp[:]=np.minimum(self.patch_bgr_temp+self.patch_mask*sharp*rate,255).astype('uint8')
             self.patch_hsv_temp[:]=cv2.cvtColor(self.patch_bgr_temp, cv2.COLOR_BGR2HSV)[:]
 
-    def lipstipN1(self):
+    def lipstipN(self,h,s):
         patch_mask = self.get_mask_re((1, 1))#获取嘴部区域
         patch_mask_verse=abs(patch_mask-1) #获取嘴部区域 黑白颠倒
 
         not_mouth_area=self.patch_hsv[:, :, 0]*patch_mask_verse[:, :, 0] # 口红颜色变化 H
-        mouth_area=patch_mask[:, :, 0]* 18.575
+        mouth_area=patch_mask[:, :, 0]* h
         whole_area=not_mouth_area+mouth_area
         self.patch_hsv[:, :, 0] = (whole_area).astype('uint8')
 
-        not_mouth_area1=self.patch_hsv[:, :, 1]*patch_mask_verse[:, :, 1] # S
-        mouth_area1=patch_mask[:, :, 1]* 22.95
-        whole_area1=not_mouth_area1+mouth_area1
-        self.patch_hsv[:, :, 1] = (whole_area1).astype('uint8')
-
-
-        not_mouth_area2=self.patch_hsv[:, :, 2]*patch_mask_verse[:, :, 2] # V
-        mouth_area2=patch_mask[:, :, 2]* 237.15
-        whole_area2=not_mouth_area2+mouth_area2
-        self.patch_hsv[:, :, 2] = (whole_area2).astype('uint8')
+        not_mouth_area_s=self.patch_hsv[:, :, 1]*patch_mask_verse[:, :, 1] # S
+        mouth_area_s=patch_mask[:, :, 1]* s
+        whole_area_s=not_mouth_area_s+mouth_area_s
+        self.patch_hsv[:, :, 1] = (whole_area_s).astype('uint8')
 
         self.im_bgr[:] = cv2.cvtColor(self.im_hsv, cv2.COLOR_HSV2BGR)[:]
         self.update_temp()
@@ -363,7 +357,7 @@ if __name__=='__main__':
         #face.smooth(0.7)
         #face.organs['forehead'].whitening()
         #face.organs['forehead'].smooth(0.7)
-        face.organs['mouth'].lipstipN1()#brightening()
+        face.organs['mouth'].lipstipN(4.715,153.00)#brightening()
         #face.organs['mouth'].smooth(0.7)
         #face.organs['mouth'].whitening()
         #face.organs['left eye'].whitening()
