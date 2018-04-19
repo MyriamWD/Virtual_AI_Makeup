@@ -346,6 +346,12 @@ class Makeup():
         temp_bgr,temp_hsv=im_bgr.copy(),im_hsv.copy()
         return im_bgr,temp_bgr,self.get_faces(im_bgr,im_hsv,temp_bgr,temp_hsv,fname)
 
+    def read_and_mark_no_path(self,im_bgr):
+        im_hsv=cv2.cvtColor(im_bgr, cv2.COLOR_BGR2HSV)
+        temp_bgr,temp_hsv=im_bgr.copy(),im_hsv.copy()
+        fname = 'test'
+        return im_bgr,temp_bgr,self.get_faces(im_bgr,im_hsv,temp_bgr,temp_hsv,fname)
+
 if __name__=='__main__':
     path='./raw/2.jpg'
     mu=Makeup()
@@ -357,7 +363,13 @@ if __name__=='__main__':
         #face.smooth(0.7)
         #face.organs['forehead'].whitening()
         #face.organs['forehead'].smooth(0.7)
-        face.organs['mouth'].lipstipN(4.715,153.00)#brightening()
+        #face.organs['forehead'].brightening()
+        #face.organs['mouth'].lipstipN(18.575, 22.95)    # 1
+        #face.organs['mouth'].lipstipN(4.715,153.00)     # 4
+        #face.organs['mouth'].lipstipN(178.415, 86.70)   # 5
+        #face.organs['mouth'].lipstipN(171.845, 119.85)  # 7
+        face.organs['mouth'].lipstipN(177.77, 216.75)   # 11
+
         #face.organs['mouth'].smooth(0.7)
         #face.organs['mouth'].whitening()
         #face.organs['left eye'].whitening()
